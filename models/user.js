@@ -43,9 +43,9 @@ function validateUser(user) {
       .max(50)
       .required(),
     email: Joi.string()
+      .email()
       .min(5)
       .max(255)
-      .email()
       .required(),
     password: Joi.string()
       .min(5)
