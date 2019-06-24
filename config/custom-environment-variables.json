@@ -1,3 +1,4 @@
 {
-  "jwtPrivateKey": "sp_jwtPrivateKey"
+  "jwtPrivateKey": "sp_jwtPrivateKey",
+  "mailPassword": "sp_mailPassword"
 }

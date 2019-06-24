@@ -7,6 +7,12 @@ categorySchema = new mongoose.Schema({
     required: true,
     minlength: 3,
     maxlength: 255
+  },
+  image_src: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 50
   }
 });
 
@@ -16,6 +22,10 @@ function validateCategory(category) {
   const schema = {
     name: Joi.string()
       .min(3)
+      .max(255)
+      .required(),
+    image_src: Joi.string()
+      .min(5)
       .max(50)
       .required()
   };

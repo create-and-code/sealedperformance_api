@@ -13,7 +13,10 @@ router.post("/", auth, async (req, res) => {
   const { error } = validateCategory(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const category = new Category({ name: req.body.name });
+  const category = new Category({
+    name: req.body.name,
+    image_src: req.body.image_src
+  });
   await category.save();
 
   res.send(category);
@@ -27,7 +30,7 @@ router.put("/:id", auth, async (req, res) => {
   try {
     category = await Category.findByIdAndUpdate(
       req.params.id,
-      { name: req.body.name },
+      { name: req.body.name, image_src: req.body.image_src },
       { new: true }
     );
   } catch (ex) {

@@ -1,8 +1,8 @@
 const Joi = require("Joi");
+Joi.objectId = require("joi-objectid")(Joi);
 const mongoose = require("mongoose");
-const { genreSchema } = require("./category");
 
-MovieSchema = new mongoose.Schema({
+ProductSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -10,8 +10,17 @@ MovieSchema = new mongoose.Schema({
     minlength: 5,
     maxlength: 50
   },
-  genre: {
-    genre: genreSchema
+  category: {
+    _id: {
+      type: String,
+      required: true
+    },
+    name: {
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 255
+    }
   },
   numberInStock: {
     type: Number,
@@ -19,32 +28,50 @@ MovieSchema = new mongoose.Schema({
     minlength: 0,
     maxlength: 255
   },
-  dailyRentalRate: {
+  price: {
     type: Number,
     required: true,
-    minlength: 0,
+    minlength: 2,
+    maxlength: 150
+  },
+  description: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 5,
     maxlength: 255
+  },
+  images: {
+    type: Array,
+    required: true
   }
 });
 
-const Movie = mongoose.model("Movie", MovieSchema);
+const Product = mongoose.model("Product", ProductSchema);
 
-function validateMovie(movie) {
+function validateProduct(product) {
   const schema = {
     title: Joi.string()
       .min(5)
       .max(50)
       .required(),
-    genreId: Joi.objectId().required(),
+    categoryId: Joi.objectId().required(),
     numberInStock: Joi.number()
       .min(0)
+      .max(255)
       .required(),
-    dailyRentalRate: Joi.number()
-      .min(0)
-      .required()
+    price: Joi.number()
+      .min(2)
+      .max(150)
+      .required(),
+    description: Joi.string()
+      .min(5)
+      .max(255)
+      .required(),
+    images: Joi.array().required()
   };
-  return Joi.validate(movie, schema);
+  return Joi.validate(product, schema);
 }
 
-exports.Movie = Movie;
-exports.validateMovie = validateMovie;
+exports.Product = Product;
+exports.validateProduct = validateProduct;
