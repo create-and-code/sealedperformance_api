@@ -21,6 +21,8 @@ router.post("/", auth, async (req, res) => {
   const user = await User.findById(req.body.userId);
   if (!user) return res.status(400).send("Invalid user.");
 
+  //TODO
+
   //   const product = await Product.findById(req.body.productId);
   //   if (!product) return res.status(400).send("Invalid product.");
 
@@ -54,12 +56,11 @@ router.post("/", auth, async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  const rental = await Rental.findById(req.params.id);
+  const order = await Order.find({ "user._id": req.params.id });
 
-  if (!rental)
-    return res.status(404).send("The rental with the given ID was not found.");
+  if (!order) return res.status(404).send("No orders could be found.");
 
-  res.send(rental);
+  res.send(order);
 });
 
 module.exports = router;
